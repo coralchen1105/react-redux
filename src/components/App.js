@@ -7,11 +7,13 @@ import ManageCoursePage from "./course/ManageCoursePage";
 import configureStore from "../store/configureStore";
 import { Provider } from "react-redux";
 import { loadCourses } from "../actions/courseActions";
+import { loadAuthors } from "../actions/authorActions";
 
 // pass initial state from api or DB
 // dispatch an action to the store
 const store = configureStore();
 store.dispatch(loadCourses());
+store.dispatch(loadAuthors());
 
 class App extends React.Component {
   render() {

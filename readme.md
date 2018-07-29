@@ -8,3 +8,4 @@
     thunk:return function, is a function that wraps an expression in order to delay its evaluation
 
 5.  e.g. className={wrapperClass}, {} is reference to the component props
+6.  ctrl +p : shoutcut for find file

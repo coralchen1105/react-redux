@@ -1,7 +1,8 @@
 import * as types from "../actions/actionTypes";
+import initialState from "./initialState";
 
 // state = []: inital empty state array for coping and get the action data from courseActions file
-export default function courseReducer(state = [], action) {
+export default function courseReducer(state = initialState.courses, action) {
   // state is immutable
   switch (action.type) {
     case types.LOAD_COURSES_SUCCESS:
