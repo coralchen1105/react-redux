@@ -17,6 +17,7 @@ class CoursesPage extends React.Component {
     // // first this is from this class, the second bind(this) is to bind this component
     // this.onTitleChange = this.onTitleChange.bind(this);
     // this.onClickSave = this.onClickSave.bind(this);
+    this.redirectToAddCoursePage = this.redirectToAddCoursePage.bind(this);
   }
 
   // // child functions
@@ -31,6 +32,9 @@ class CoursesPage extends React.Component {
     return <div key={index}>{course.title}</div>;
   }
 
+  redirectToAddCoursePage() {
+    this.props.history.push("/course");
+  }
   // render function
   render() {
     //debugger;
@@ -38,6 +42,12 @@ class CoursesPage extends React.Component {
     return (
       <div>
         <h1>Course</h1>
+        <input
+          type="submit"
+          value="Add Course"
+          className="btn btn-primary"
+          onClick={this.redirectToAddCoursePage}
+        />
         <CourseList courses={courses} />
       </div>
     );
@@ -46,13 +56,15 @@ class CoursesPage extends React.Component {
 
 CoursesPage.propTypes = {
   courses: PropTypes.array.isRequired,
-  actions: PropTypes.object.isRequired
+  actions: PropTypes.object.isRequired,
+  history: PropTypes.object.isRequired
 };
 
 // parameter state is from rootReducer state data (courseReducer), ownProps is this component own data
 // pass the state data to component props data
 function mapStateToProps(state, ownProps) {
   //debugger;
+  // state.courses is decleared in course reducer (copy from api course data)
   return { courses: state.courses };
 }
 

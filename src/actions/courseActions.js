@@ -2,6 +2,7 @@
 // the only requirement of an action is that it has a type property
 import courseApi from "../api/mockCourseApi";
 import * as types from "./actionTypes";
+import { beginAjaxCall } from "./ajaxStatusAction";
 
 export function loadCourseSuccess(courses) {
   //debugger;
@@ -20,6 +21,7 @@ export function updateCourseSuccess(course) {
 // get data from api and the data dispatch to action function: dispatch(loadCourseSuccess(courses))
 export function loadCourses() {
   return function(dispatch) {
+    dispatch(beginAjaxCall);
     return courseApi
       .getAllCourses()
       .then(courses => {
@@ -31,10 +33,12 @@ export function loadCourses() {
   };
 }
 
+// create course or update course
 export function saveCourse(course) {
   return function(dispatch, getState) {
-    dispatch(beginAjaxCall());
-    return CourseApi.saveCourse(course)
+    dispatch(beginAjaxCall);
+    return courseApi
+      .saveCourse(course) // return course as arguement to .then(saveCourse)
       .then(savedCourse => {
         course.id
           ? dispatch(updateCourseSuccess(savedCourse))

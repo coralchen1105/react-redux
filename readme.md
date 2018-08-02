@@ -9,3 +9,11 @@
 
 5.  e.g. className={wrapperClass}, {} is reference to the component props
 6.  ctrl +p : shoutcut for find file
+7.  author data pass from api to frontend (author data is from api, not user input):
+    a. setup initial state file and dispatch to configurateStore with reducers and state,
+    b. get initial state data from all reducers (authorReducer),
+    c. action file get the data from api and dispatch with action type then pass to reducers,
+    d. reducer file is the copy the action data to initial state array and export the new state to configureStore
+    e. store connect reducers and app.js to dispatch actions with store, so all three data flow connect together
+    f. after all calling the component state from app.js will be initialized (copied from action file) and can used directly in children component.
+8.  check thunk? And check the app component state and props, go through all the data flow

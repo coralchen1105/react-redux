@@ -10,7 +10,8 @@ import { loadCourses } from "../actions/courseActions";
 import { loadAuthors } from "../actions/authorActions";
 
 // pass initial state from api or DB
-// dispatch an action to the store
+// dispatch an action to the store, return object of dispatched action
+// in the ManageCoursePage component it will have the new of course state and authors state
 const store = configureStore();
 store.dispatch(loadCourses());
 store.dispatch(loadAuthors());
