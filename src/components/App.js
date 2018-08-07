@@ -8,10 +8,15 @@ import configureStore from "../store/configureStore";
 import { Provider } from "react-redux";
 import { loadCourses } from "../actions/courseActions";
 import { loadAuthors } from "../actions/authorActions";
+import Header from "./common/Header";
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
 
 // pass initial state from api or DB
 // dispatch an action to the store, return object of dispatched action
 // in the ManageCoursePage component it will have the new of course state and authors state
+// Dispatch actions to load initial state.
+// thunk to return function (loadCourses() from action)
 const store = configureStore();
 store.dispatch(loadCourses());
 store.dispatch(loadAuthors());
@@ -22,13 +27,7 @@ class App extends React.Component {
       <Provider store={store}>
         <Router className="App">
           <div>
-            <nav className="navbar navbar-default">
-              <div className="container-fluid">
-                <Link to="/">Home</Link>
-                <Link to="/about">About</Link>
-                <Link to="/courses">Courses</Link>
-              </div>
-            </nav>
+            <Header loading={this.props.loading} />
             <Switch>
               <Route exact path="/" component={HomePage} />
               <Route path="/courses" component={CoursesPage} />
@@ -43,4 +42,15 @@ class App extends React.Component {
   }
 }
 
-export default App;
+App.propTypes = {
+  loading: PropTypes.bool.isRequired,
+  match: PropTypes.object.isRequired
+};
+
+function mapStateToProps(state, ownProps) {
+  return {
+    loading: state.ajaxCallsInProgress > 0
+  };
+}
+
+export default connect(mapStateToProps)(App);

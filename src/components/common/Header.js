@@ -1,16 +1,14 @@
 import React from "react";
-import { Link, IndexLink } from "react-router";
+import { Link } from "react-router";
 
 const Header = () => {
   return (
-    <nav>
-      <IndexLink to="/" activeClassName="active">
-        Home
-      </IndexLink>
-      {" | "}
-      <Link to="/about" activeClassName="active">
-        About
-      </Link>
+    <nav className="navbar navbar-default">
+      <div className="container-fluid">
+        <Link to="/">Home</Link>
+        <Link to="/about">About</Link>
+        <Link to="/courses">Courses</Link>
+      </div>
     </nav>
   );
 };

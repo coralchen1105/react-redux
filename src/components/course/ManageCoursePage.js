@@ -11,7 +11,8 @@ class ManageCoursePage extends React.Component {
 
     this.state = {
       course: Object.assign({}, this.props.course),
-      errors: {}
+      errors: {},
+      saving: false
     };
     this.updateCourseState = this.updateCourseState.bind(this);
     this.saveCourse = this.saveCourse.bind(this);
@@ -25,6 +26,7 @@ class ManageCoursePage extends React.Component {
     return null;
   }
 
+  // create new course state from user input
   updateCourseState(event) {
     const field = event.target.name;
     // Fix: Clone state to avoid manipulating below.
@@ -35,9 +37,15 @@ class ManageCoursePage extends React.Component {
 
   saveCourse(event) {
     event.preventDefault();
-    this.props.actions.saveCourse(this.state.course);
+    this.setState({ saving: true });
+    // call action function saveCourse()
+    this.props.actions
+      .saveCourse(this.state.course)
+      .then(() => this.redirect());
+    this.props.history.push("/courses");
   }
 
+  redirect() {}
   render() {
     return (
       <div>
@@ -57,7 +65,8 @@ class ManageCoursePage extends React.Component {
 ManageCoursePage.propTypes = {
   course: PropTypes.object.isRequired,
   authors: PropTypes.array.isRequired,
-  actions: PropTypes.object.isRequired
+  actions: PropTypes.object.isRequired,
+  history: PropTypes.object.isRequired
 };
 
 function getCourseById(courses, id) {
@@ -67,6 +76,10 @@ function getCourseById(courses, id) {
   return null;
 }
 
+// map state to particular component to use data for this component
+// this component state data is all courses data from app.js store loading
+// if courseId existed in the courses data (state), then get it and load to props course
+// if id not existed that means to create new course data (in this component state) and pass to props
 function mapStateToProps(state, ownProps) {
   const courseId = ownProps.match.params.id; // from the path "/course/:id" declear the placeholder in app.js
 
@@ -107,3 +120,14 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps
 )(ManageCoursePage);
+
+// state in this component:
+//course: updateCourseState(event) to create new state
+//courses: load from app.js store
+// props: only have one course state to map to props
+// if param.match.id exist, get that course data and pass to props
+// after loading existing course data to props, static getDerivedStateFromProps(props, state)
+// will load the data from props.course
+// if id not existed, then use updateCourseState(event) to create new state and pass to props
+
+// To summary: props course data is either from user input state or matching id from store course data

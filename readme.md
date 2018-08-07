@@ -16,4 +16,5 @@
     d. reducer file is the copy the action data to initial state array and export the new state to configureStore
     e. store connect reducers and app.js to dispatch actions with store, so all three data flow connect together
     f. after all calling the component state from app.js will be initialized (copied from action file) and can used directly in children component.
-8.  check thunk? And check the app component state and props, go through all the data flow
+8.  thunk: allows you to write action creators that return a function instead of an action. The thunk can be used to delay the dispatch of an action, or to dispatch only if a certain condition is met. The inner function receives the store methods dispatch and getState as parameters.
+9.  And check the app component state and props, go through all the data flow

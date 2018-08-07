@@ -21,3 +21,5 @@ export function loadAuthors() {
       });
   };
 }
+
+// apply of thunk dispatch()
