@@ -4,6 +4,8 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import * as courseActions from "../../actions/courseActions";
 import CourseForm from "./courseForm";
+import toastr from "toastr";
+import { Redirect } from "react-router-dom";
 
 class ManageCoursePage extends React.Component {
   constructor(props, context) {
@@ -12,7 +14,8 @@ class ManageCoursePage extends React.Component {
     this.state = {
       course: Object.assign({}, this.props.course),
       errors: {},
-      saving: false
+      saving: false,
+      redirect: false
     };
     this.updateCourseState = this.updateCourseState.bind(this);
     this.saveCourse = this.saveCourse.bind(this);
@@ -35,18 +38,47 @@ class ManageCoursePage extends React.Component {
     return this.setState({ course: course });
   }
 
+  courseFormIsValid() {
+    let formIsValid = true;
+    let errors = {};
+
+    if (this.state.course.title.length < 5) {
+      errors.title = "Title must be at least 5 characters.";
+      formIsValid = false;
+    }
+
+    this.setState({ errors: errors });
+    return formIsValid;
+  }
+
   saveCourse(event) {
     event.preventDefault();
+
+    if (!this.courseFormIsValid()) {
+      return;
+    }
+
     this.setState({ saving: true });
     // call action function saveCourse()
     this.props.actions
       .saveCourse(this.state.course)
-      .then(() => this.redirect());
-    this.props.history.push("/courses");
+      .then(() => this.redirect())
+      .catch(error => {
+        toastr.error(error);
+        this.setState({ saving: false });
+      });
   }
 
-  redirect() {}
+  redirect() {
+    this.setState({ saving: false, redirect: true });
+    toastr.success("Course saved.");
+  }
+
   render() {
+    if (this.state.redirect) {
+      return <Redirect to="/courses" />;
+    }
+
     return (
       <div>
         <h1>Course Manage Page</h1>
@@ -56,6 +88,7 @@ class ManageCoursePage extends React.Component {
           errors={this.state.errors}
           onChange={this.updateCourseState}
           onSave={this.saveCourse}
+          saving={this.state.saving}
         />
       </div>
     );

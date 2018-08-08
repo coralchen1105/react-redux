@@ -2,7 +2,7 @@
 // the only requirement of an action is that it has a type property
 import courseApi from "../api/mockCourseApi";
 import * as types from "./actionTypes";
-import { beginAjaxCall } from "./ajaxStatusAction";
+import { beginAjaxCall, ajaxCallError } from "./ajaxStatusAction";
 
 export function loadCourseSuccess(courses) {
   //debugger;
@@ -50,6 +50,7 @@ export function saveCourse(course) {
           : dispatch(createCourseSuccess(savedCourse));
       })
       .catch(error => {
+        dispatch(ajaxCallError(error));
         throw error;
       });
   };

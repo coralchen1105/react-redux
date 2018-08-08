@@ -1,16 +1,30 @@
 import React from "react";
-import { Link } from "react-router";
+import { NavLink } from "react-router-dom";
+import LoadingDots from "./LoadingDots";
+import PropTypes from "prop-types";
 
-const Header = () => {
+const Header = ({ loading }) => {
+  const activeStyle = { color: "blue" };
   return (
-    <nav className="navbar navbar-default">
-      <div className="container-fluid">
-        <Link to="/">Home</Link>
-        <Link to="/about">About</Link>
-        <Link to="/courses">Courses</Link>
-      </div>
+    <nav>
+      <NavLink to="/" activeStyle={activeStyle} exact>
+        Home
+      </NavLink>
+      {" | "}
+      <NavLink to="/courses" activeStyle={activeStyle}>
+        Courses
+      </NavLink>
+      {" | "}
+      <NavLink to="/about" activeStyle={activeStyle}>
+        About
+      </NavLink>
+      {loading && <LoadingDots interval={100} dots={20} />}
     </nav>
   );
+};
+
+Header.propTypes = {
+  loading: PropTypes.bool.isRequired
 };
 
 export default Header;
