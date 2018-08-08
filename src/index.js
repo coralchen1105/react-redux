@@ -1,10 +1,12 @@
+/* eslint-disable import/default */
+
 import "babel-polyfill";
 import React from "react";
 import { render } from "react-dom";
 
 import App from "./components/App";
 import { Route, BrowserRouter as Router } from "react-router-dom";
-import configureStore from "./store/configureStore";
+import configureStore from "./store/configureStore.dev";
 import { Provider } from "react-redux";
 import { loadCourses } from "./actions/courseActions";
 import { loadAuthors } from "./actions/authorActions";
